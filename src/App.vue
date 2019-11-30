@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <router-view v-if="!loading"></router-view>
 </template>
 
 <script>
@@ -8,14 +8,22 @@
 
   export default {
     name: 'App',
+    data: function() {
+      return {
+        loading: true,
+      }
+    },
+    methods: {
+
+    },
     mounted: async function() {
       try {
         const self = await this.$http.get("backend-auth/self");
-        //store.commit(AuthMutations.SetUser, self);
-        console.log(store.getters["user"]);
+        this.loading = false;
+        store.commit(AuthMutations.SetUser, self);
       } catch (e) {
-        console.log(e);
-        if (this.$route.path !== "/login") {
+        this.loading = false;
+        if (this.$route.path !== "/login" && this.$route.path !== '/register') {
           this.$router.push("/login");
         }
       }

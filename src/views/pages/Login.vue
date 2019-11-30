@@ -55,6 +55,7 @@
             <CButton
               color="primary"
               class="active mt-3"
+              v-on:click="$router.push('register')"
             >
               Register Now!
             </CButton>

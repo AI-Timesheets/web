@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {store} from './store';
 import Cookies from 'js-cookie';
+import FormException from "./exceptions/formException";
 
 const API_URL = process.env.API_URL ? process.env.API_URL : "http://localhost:8000/api/";
 
@@ -32,9 +33,18 @@ class API {
             if (response.data.success) {
                 return response.data.result ? response.data.result : null;
             } else {
+                if (response.data.error.fields) {
+                    return new FormException("Form Validation Error", response.data.error.fields);
+                }
                 throw new Error(response.data.error);
             }
         } catch (e) {
+            if (e.response) {
+                if (e.response.data.error.fields) {
+                    throw new FormException("Form Validation Error", e.response.data.error.fields);
+                }
+                throw new Error(e.response.data.error);
+            }
             throw new Error(e.message);
         }
     }

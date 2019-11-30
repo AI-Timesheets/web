@@ -57,6 +57,11 @@ export default {
       return this.$store.getters["user"];
     },
     name: function() {
+
+      if (!this.user) {
+        return "";
+      }
+
       const firstName = this.user.first_name.charAt(0).toUpperCase() + this.user.first_name.slice(1);
       const lastName = this.user.last_name.charAt(0).toUpperCase() + this.user.last_name.slice(1);
       return firstName + " " + lastName;
