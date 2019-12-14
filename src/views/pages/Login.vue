@@ -37,7 +37,7 @@
                     <CButton color="primary" class="px-4" v-on:click="login">Login</CButton>
                   </CCol>
                   <CCol col="8" class="text-right">
-                    <CButton color="link" class="px-0">Forgot password?</CButton>
+                    <CButton color="link" class="px-0" v-on:click='$router.push({name: "ForgotPassword"})'>Forgot password?</CButton>
                   </CCol>
                 </CRow>
               </CForm>
@@ -94,6 +94,8 @@ export default {
 
         this.status = "Success!";
 
+        console.log(response);
+
         this.$store.commit(AuthMutations.SetToken, response.jwt);
         this.$store.commit(AuthMutations.SetUser, response.user);
 
@@ -101,8 +103,11 @@ export default {
           this.$router.push("/");
         }, 500);
       } catch (e) {
+
+        console.log(e);
+
         this.status = null;
-        this.error = e.message;
+        this.error = e.data;
 
         setTimeout(() => {
           this.error = null;

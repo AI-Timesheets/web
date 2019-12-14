@@ -32,9 +32,7 @@ const store = new Vuex.Store({
     mutations: {
         setToken(state, token) {
             state.token = token;
-
-            console.log(state);
-
+            
             if (state.token) {
                 Cookies.set("authorization", token);
             } else {

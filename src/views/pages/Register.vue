@@ -4,7 +4,7 @@
       <CCol sm="8" md="6" style="margin-top: 5%">
         <CCard class="mx-4 mb-0">
           <CCardBody class="p-4">
-            <CForm>
+            <CForm v-if="!success">
               <h1>Register</h1>
               <p class="text-muted">Create your account</p>
               <CInput
@@ -12,7 +12,7 @@
                       autocomplete="firstname"
                       v-bind:isValid="isValidField('firstName')"
                       v-model="user.firstName"
-                      v-on:input="validateFields"
+                      v-on:input="fieldValid.firstName = null"
               >
                 <template #invalid-feedback><div class="invalid-feedback">{{fieldError('firstName')}}</div></template>
               </CInput>
@@ -21,7 +21,7 @@
                       autocomplete="lastname"
                       v-model="user.lastName"
                       v-bind:isValid="isValidField('lastName')"
-                      v-on:input="validateFields"
+                      v-on:input="fieldValid.lastName = null"
               >
                 <template #invalid-feedback><div class="invalid-feedback">{{fieldError('lastName')}}</div></template>
               </CInput>
@@ -30,7 +30,7 @@
                 autocomplete="username"
                 v-model="user.username"
                 v-bind:isValid="isValidField('username')"
-                v-on:input="validateFields"
+                v-on:input="fieldValid.username = null"
               >
               <template #invalid-feedback><div class="invalid-feedback">{{fieldError('username')}}</div></template>
               </CInput>
@@ -39,7 +39,7 @@
                 autocomplete="email"
                 v-model="user.email"
                 v-bind:isValid="isValidField('email')"
-                v-on:input="validateFields"
+                v-on:input="fieldValid.email = null"
               >
                 <template #invalid-feedback><div class="invalid-feedback">{{fieldError('email')}}</div></template>
               </CInput>
@@ -49,26 +49,19 @@
                 autocomplete="new-password"
                 v-model="user.password"
                 v-bind:isValid="isValidField('password')"
-                v-on:input="validateFields"
+                v-on:input="fieldValid.password = null"
               >
                 <template #invalid-feedback><div class="invalid-feedback">{{fieldError('password')}}</div></template>
-                <template #prepend-content><CIcon name="cil-lock-locked"/></template>
-              </CInput>
-              <CInput
-                placeholder="Repeat password"
-                type="password"
-                autocomplete="new-password"
-                class="mb-4 is-valid"
-                v-model="user.confirmPassword"
-                v-bind:isValid="isValidField('confirmPassword')"
-                v-on:input="validateFields"
-              >
-                  <template #invalid-feedback><div class="invalid-feedback">{{fieldError('confirmPassword')}}</div></template>
                 <template #prepend-content><CIcon name="cil-lock-locked"/></template>
               </CInput>
               <CRow v-if="status">
                 <CCol col="12">
                   <div col="12" class="alert alert-primary">{{status}}</div>
+                </CCol>
+              </CRow>
+              <CRow v-if="error">
+                <CCol col="12">
+                  <div col="12" class="alert alert-danger">{{error}}</div>
                 </CCol>
               </CRow>
               <CButton color="success" v-on:click="register" block>Create Account</CButton>
@@ -78,6 +71,10 @@
                 </div>
               </CRow>
             </CForm>
+            <div v-else>
+              <h3>Account registered successfully</h3>
+              <p>Please check your email to finish up creating your account.</p>
+            </div>
           </CCardBody>
         </CCard>
       </CCol>
@@ -87,6 +84,7 @@
 
 <script>
 import {AuthMutations} from "../../store";
+import {isFormException} from "../../exceptions/exceptionCheck";
 
 export default {
   name: 'Register',
@@ -103,95 +101,61 @@ export default {
       canSubmit: false,
       error: null,
       status: null,
+      success: false,
+      fieldValid: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        username: null,
+        password: null,
+      },
       fieldErrors: {
-
+        firstName: null,
+        lastName: null,
+        email: null,
+        username: null,
+        password: null,
       }
     }
   },
   mounted: function() {
-      this.validateFields();
+
   },
   methods: {
-    largerThan: function(str, size) {
-        return str.split(" ").join("").length > size;
-    },
-    validateFields: function() {
-
-      this.fieldErrors = {};
-      this.canSubmit = true;
-
-      if (!this.largerThan(this.user.firstName, 0)) {
-          this.fieldErrors.firstName = "First name is required.";
-          this.canSubmit = false;
-      }
-
-      if (!this.largerThan(this.user.lastName, 0)) {
-          this.fieldErrors.lastName = "Last name is required.";
-          this.canSubmit = false;
-      }
-
-      if (!this.largerThan(this.user.username, 4)) {
-          this.fieldErrors.username = "Username must be 5 or more characters.";
-          this.canSubmit = false;
-      }
-
-      if (!this.largerThan(this.user.email, 0) || this.user.email.indexOf("@") === -1) {
-          this.fieldErrors.email = "Valid email is required.";
-          this.canSubmit = false;
-      }
-
-      if (!this.largerThan(this.user.password, 7)) {
-          this.fieldErrors.password = "Password must be 8 or more characters.";
-          this.fieldErrors.confirmPassword = this.fieldErrors.password;
-          this.canSubmit = false;
-      }
-
-      if (this.user.password !== this.user.confirmPassword) {
-          this.fieldErrors.confirmPassword = "Passwords don't match.";
-          this.canSubmit = false;
-      }
-
-      console.log(this.fieldErrors);
-    },
     isValidField: function(fieldName) {
-      return !this.fieldErrors.hasOwnProperty(fieldName);
+      return this.fieldValid[fieldName];
     },
     fieldError: function(fieldName) {
-      if (!this.isValidField(fieldName)) {
-        return this.fieldErrors[fieldName];
-      } else {
-        return "";
-      }
+      return this.fieldErrors[fieldName];
     },
     register: async function() {
       this.status = "Registering Account";
       try {
         const user = await this.$http.post("backend-auth/register", this.user);
-        const login = await this.$http.post("backend-auth/login", {
-            usernameOrEmail: this.user.username,
-            password: this.user.password
-        });
-
-      this.status = "Success!";
-
-      this.$store.commit(AuthMutations.SetToken, login.jwt);
-      this.$store.commit(AuthMutations.SetUser, login.user);
-
-      setTimeout(() => {
-          this.$router.push("/");
-      }, 500);
+ 
+        this.status = "Success!";
+        this.success = true;
+   
       } catch (e) {
 
-        if (e.message.toUpperCase().indexOf("USERNAME") !== -1) {
-            this.fieldErrors.username = e.message;
-        }
-
-        if (e.message.toUpperCase().indexOf('EMAIL') !== -1) {
-            this.fieldErrors.email = e.message;
-        }
-
-        this.error = "Invalid registration";
         this.status = null;
+
+        if (isFormException(e)) {
+          for (const field in e.fields) {
+            this.fieldErrors[field] = e.fields[field].join("<br/>");
+            this.fieldValid[field] = false;
+          }
+        } else {
+          if (e.data.indexOf("Email") !== -1) {
+            this.fieldErrors.email = e.data;
+            this.fieldValid.email = false;
+          }
+
+          if (e.data.indexOf("Username") !== -1) {
+            this.fieldErrors.username = e.data;
+            this.fieldValid.username = false;
+          }
+        }
       }
     }
   },

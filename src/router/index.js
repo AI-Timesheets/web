@@ -52,6 +52,9 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const Verify = () => import('@/views/pages/Verify')
+const Recover = () => import('@/views/pages/Recover')
+const ForgotPassword = () => import('@/views/pages/ForgotPassword')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -77,6 +80,21 @@ function configRoutes () {
       path: '/register',
       name: 'Register',
       component: Register,
+    },
+    {
+      path: '/verify/:key',
+      name: 'Verify',
+      component: Verify,
+    },
+    {
+      path: '/recover/:key',
+      name: 'Recover',
+      component: Recover,
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword,
     },
     {
       path: '/',
