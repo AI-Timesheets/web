@@ -11,12 +11,17 @@ const AuthMutations = {
 const AuthActions = {
 }
 
+const CompanyMutations = {
+    SetCompany: 'setCompany',
+}
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
         token: null,
         user: null,
+        company: null,
     },
     getters: {
         token (state) {
@@ -27,12 +32,15 @@ const store = new Vuex.Store({
         },
         loggedIn (state) {
             return state.user !== null;
+        },
+        company (state) {
+            return state.company;
         }
     },
     mutations: {
         setToken(state, token) {
             state.token = token;
-            
+
             if (state.token) {
                 Cookies.set("authorization", token);
             } else {
@@ -41,6 +49,9 @@ const store = new Vuex.Store({
         },
         setUser(state, user) {
             state.user = user;
+        },
+        setCompany(state, company) {
+            state.company = company;
         }
     }
 });
@@ -49,5 +60,6 @@ const store = new Vuex.Store({
 export {
     AuthActions,
     AuthMutations,
+    CompanyMutations,
     store,
 }

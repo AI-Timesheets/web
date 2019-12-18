@@ -52,9 +52,13 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const CreateInitialCompany = () => import("@/views/pages/CreateInitialCompany")
 const Verify = () => import('@/views/pages/Verify')
 const Recover = () => import('@/views/pages/Recover')
 const ForgotPassword = () => import('@/views/pages/ForgotPassword')
+
+const Companies = () => import('@/views/pages/Companies')
+const Company = () => import('@/views/pages/Company')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -82,6 +86,11 @@ function configRoutes () {
       component: Register,
     },
     {
+      path: '/register-company',
+      name: 'CreateInitialCompany',
+      component: CreateInitialCompany,
+    },
+    {
       path: '/verify/:key',
       name: 'Verify',
       component: Verify,
@@ -106,6 +115,18 @@ function configRoutes () {
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: '/companies',
+          name: 'Companies',
+          component: Companies,
+          children: [
+            {
+              path: '/:key',
+              name: 'Company',
+              component: Company,
+            }
+          ]
         },
         {
           path: 'theme',

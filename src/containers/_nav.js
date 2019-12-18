@@ -15,13 +15,13 @@ export default [
       {
         _name: 'CSidebarNavItem',
         name: 'Companies',
-        to: '/theme/colors',
+        to: '/companies',
         icon: 'cil-globe-alt'
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Employees',
-        to: '/theme/typography',
+        to: '/employees',
         icon: 'cil-people'
       },
       {

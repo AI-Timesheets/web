@@ -26,7 +26,7 @@ export default {
             this.$store.commit(AuthMutations.SetToken, response.jwt);
             this.$store.commit(AuthMutations.SetUser, response.user);
             this.status = "Account verified successfully! :)"
-            setTimeout(() => this.$router.push("/"), 500);
+            setTimeout(() => this.$router.push({name: "CreateInitialCompany"}), 500);
         } catch (e) {
             this.status = e.message + " :(";
         }

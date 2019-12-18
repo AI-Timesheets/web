@@ -78,6 +78,8 @@ export default {
       password: "",
       status: null,
       error: null,
+      companyName: "",
+      locationName: "",
     }
   },
   methods: {

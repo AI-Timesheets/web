@@ -132,10 +132,10 @@ export default {
       this.status = "Registering Account";
       try {
         const user = await this.$http.post("backend-auth/register", this.user);
- 
+
         this.status = "Success!";
         this.success = true;
-   
+
       } catch (e) {
 
         this.status = null;

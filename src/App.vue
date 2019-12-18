@@ -4,7 +4,7 @@
 
 <script>
 
-  import {store, AuthMutations} from './store';
+  import {store, AuthMutations, CompanyMutations} from './store';
 
   const IGNORE_ROUTES = [
     'Login',
@@ -23,40 +23,44 @@
       }
     },
     methods: {
-      authorized: async function() {
+      authorize: async function() {
         this.loading = true;
         try {
           const self = await this.$http.get("backend-auth/self");
           this.loading = false;
+
           store.commit(AuthMutations.SetUser, self);
-          this.initialized = true;
-          return true;
+
+          try {
+            const company = await this.$http.get("company/initial");
+
+            store.commit(CompanyMutations.SetCompany, company);
+
+            if (IGNORE_ROUTES.indexOf(this.$route.name) !== -1) {
+              this.$router.push({name: "Dashboard"});
+            }
+
+          } catch (e) {
+            this.$router.push({name: "CreateInitialCompany"});
+          }
+
         } catch (e) {
           this.loading = false;
-          if (IGNORE_ROUTES.indexOf(this.$route.name) !== -1) {
-            return true;
+
+          if (IGNORE_ROUTES.indexOf(this.$route.name) === -1) {
+            this.$router.push({name: "Login"});
           }
         }
-        return false;
+
       }
     },
     mounted: async function() {
 
-      document.title = "HeadCount"
-
-      this.$router.afterEach((to, from) => {
-        this.authorized()
-          .then((authorized) => {
-            if (!authorized && this.$route.name !== "Login") {
-              this.$router.push({name: "Login"});
-            }
-          })
+      this.$router.afterEach(async (to, from) => {
+        await this.authorize()
       });
 
-      if (!await this.authorized()) {
-        this.$router.push({name: "Login"});
-      }
-
+      await this.authorize()
     }
   }
 </script>
