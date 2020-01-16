@@ -14,8 +14,8 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
-        name: 'Companies',
-        to: '/companies',
+        name: 'Locations',
+        to: '/locations',
         icon: 'cil-globe-alt'
       },
       {

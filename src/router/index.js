@@ -60,6 +60,8 @@ const ForgotPassword = () => import('@/views/pages/ForgotPassword')
 const Companies = () => import('@/views/pages/Companies')
 const Company = () => import('@/views/pages/Company')
 
+const Locations = () => import('@/views/pages/Locations')
+
 // Users
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
@@ -117,16 +119,9 @@ function configRoutes () {
           component: Dashboard
         },
         {
-          path: '/companies',
-          name: 'Companies',
-          component: Companies,
-          children: [
-            {
-              path: '/:key',
-              name: 'Company',
-              component: Company,
-            }
-          ]
+          path: '/locations',
+          name: 'Locations',
+          component: Locations,
         },
         {
           path: 'theme',

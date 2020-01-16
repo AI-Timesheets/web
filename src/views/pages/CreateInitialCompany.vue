@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import {AuthMutations, CompanyMutations} from "../../store";
+    import {store, AuthMutations, CompanyMutations} from "../../store";
     import {isFormException} from "../../exceptions/exceptionCheck";
     import {setFieldErrors} from "../../helpers/formHelper";
 
@@ -77,7 +77,7 @@
                         locationName: this.locationName,
                     });
 
-                    this.$store.commit(CompanyMutations.SetCompany, response.company);
+                    store.commit(CompanyMutations.SetCompany, response.company);
 
                     this.$router.push({name: "Dashboard"});
 

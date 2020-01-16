@@ -19,7 +19,7 @@
     data: function() {
       return {
         loading: true,
-        initialized: true,
+        initialized: false,
       }
     },
     methods: {
@@ -27,14 +27,16 @@
         this.loading = true;
         try {
           const self = await this.$http.get("backend-auth/self");
-          this.loading = false;
 
           store.commit(AuthMutations.SetUser, self);
 
           try {
+
             const company = await this.$http.get("company/initial");
 
             store.commit(CompanyMutations.SetCompany, company);
+
+            this.loading = false;
 
             if (IGNORE_ROUTES.indexOf(this.$route.name) !== -1) {
               this.$router.push({name: "Dashboard"});
@@ -58,6 +60,8 @@
 
       this.$router.afterEach(async (to, from) => {
         await this.authorize()
+        console.log(to, from);
+        this.initialized = true;
       });
 
       await this.authorize()
