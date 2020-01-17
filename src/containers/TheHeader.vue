@@ -78,6 +78,7 @@ export default {
       const company = ListHelper.findById(this.companies, e, (el) => el.company.company_code).company;
       this.$store.commit(CompanyMutations.SetCompany, company);
       this.company = store.getters.company;
+      this.$root.$emit(Events.COMPANY_CHANGE);
     }
   }
 }

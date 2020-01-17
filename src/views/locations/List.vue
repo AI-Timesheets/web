@@ -37,6 +37,12 @@ export default {
         this.$root.$on(Events.LOCATION_DELETE, () => {
             this.refresh();
         });
+
+        this.$root.$on(Events.COMPANY_CHANGE, () => {
+            console.log("Company Change!");
+            console.log(this.company);
+            this.refresh();
+        })
     },
     methods: {
         refresh: async function() {

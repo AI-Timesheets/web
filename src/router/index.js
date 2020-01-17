@@ -62,6 +62,8 @@ const Company = () => import('@/views/pages/Company')
 
 const Locations = () => import('@/views/pages/Locations')
 
+const Employees = () => import('@/views/pages/Employees')
+
 // Users
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
@@ -122,6 +124,11 @@ function configRoutes () {
           path: '/locations',
           name: 'Locations',
           component: Locations,
+        },
+        {
+          path: "/employees",
+          name: "Employees",
+          component: Employees,
         },
         {
           path: 'theme',

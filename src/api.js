@@ -31,15 +31,15 @@ class API {
                 data,
             });
 
-            return response.data.result; 
+            return response.data.result;
 
         } catch (e) {
-            console.log(e);
+            console.log(e.response);
             if (e.response) {
                 if (e.response.data.error.hasOwnProperty("fields")) {
                     throw new FormException("Form Validation Error", e.response.data.error.fields);
                 }
-                
+
                 throw new GenericException(e.message, e.response.data.error);
             }
             throw new Error(e.message);
