@@ -6,9 +6,7 @@
       <div class="c-body">
         <main class="c-main">
           <CContainer fluid>
-            <transition name="fade">
-              <router-view></router-view>
-            </transition>
+            <router-view></router-view>
           </CContainer>
         </main>
       </div>

@@ -1,5 +1,8 @@
 <template>
-  <router-view v-if="!loading || initialized"></router-view>
+  <div>
+    <center v-if="!initialized"><CSpinner color="primary" size="lg" style="width:4rem; height:4rem; margin-top: 10%"></CSpinner></center>
+    <router-view v-if="!loading || initialized"/>
+  </div>
 </template>
 
 <script>

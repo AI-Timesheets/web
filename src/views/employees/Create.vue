@@ -62,7 +62,7 @@
                 <span style="float: right">Admin Employee?</span>
             </CCol>
             <CCol col="2">
-                <CSwitch label="Admin Employee?" style="float: right" v-bind:checked="employee.isAdmin === 1 ? true : false" id="adminSwitch" size="sm" class="mx-1" color="primary" shape="pill" v-on:update:checked="setAdmin($event)"></CSwitch>
+                <CSwitch label="Admin Employee?" style="float: right" v-bind:checked="employee.isAdmin === 1 ? true : false" id="adminSwitch" size="sm" class="mx-1" color="success" shape="pill" v-on:update:checked="setAdmin($event)"></CSwitch>
             </CCol>
         </CRow>
         <CRow v-if="status">

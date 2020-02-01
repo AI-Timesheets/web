@@ -1,5 +1,18 @@
 <template>
     <div>
+        <CCard>
+            <CCardHeader>
+                <CCardTitle>
+                    <CIcon name="cil-globe-alt"/>
+                    Employees
+                </CCardTitle>
+            </CCardHeader>
+            <CCardBody>
+                <employee-list></employee-list>
+                <button class="btn btn-success" v-on:click="addEmployee" style="float: right">Add Employee</button>
+            </CCardBody>
+        </CCard>
+
         <CModal v-if="showModal" v-bind:show="showModal" title="Add Employee">
             <template #header>
                 <h5 class="modal-title">
@@ -19,18 +32,6 @@
             </template>
 
         </CModal>
-        <CCard>
-            <CCardHeader>
-                <CCardTitle>
-                    <CIcon name="cil-globe-alt"/>
-                    Employees
-                </CCardTitle>
-            </CCardHeader>
-            <CCardBody>
-                <employee-list></employee-list>
-                <button class="btn btn-success" v-on:click="addEmployee" style="float: right">Add Employee</button>
-            </CCardBody>
-        </CCard>
     </div>
 </template>
 

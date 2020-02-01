@@ -1,19 +1,24 @@
 <template>
-    <CDataTable
-            :hover="true"
-            :items="employees"
-            :fields="fields"
-            :items-per-page="8"
-            :clickableRows="true"
-            pagination
-            v-on:row-clicked="openEmployee($event)"
-    >
-        <template #status="{item}">
-            <td>
-                <CBadge :color="getBadge(item.status)">{{item.status}}</CBadge>
-            </td>
-        </template>
-    </CDataTable>
+    <div>
+        <center v-if="loading"><CSpinner color="primary" size="lg" style="width:4rem; height:4rem;"></CSpinner></center>
+        <CDataTable
+                v-else
+                :hover="true"
+                :items="employees"
+                :fields="fields"
+                :items-per-page="8"
+                :clickableRows="true"
+                pagination
+                v-on:row-clicked="openEmployee($event)"
+        >
+            <template #status="{item}">
+                <td>
+                    <CBadge :color="getBadge(item.status)">{{item.status}}</CBadge>
+                </td>
+            </template>
+        </CDataTable>
+    </div>
+
 </template>
 
 <script>
@@ -26,6 +31,7 @@
                 fields: ["location", "name", "hourly_wage", "login_code", "is_admin", "status"],
                 employees: [],
                 rawEmployees: [],
+                loading: true,
             }
         },
         mounted: async function() {
@@ -51,8 +57,9 @@
         },
         methods: {
             refresh: async function() {
+                this.loading = true;
                 this.rawEmployees = await this.$http.get(`company/${this.company.id}/employee`)
-                console.log(this.rawEmployees);
+                this.loading = false;
                 this.employees = this.rawEmployees.map(employee => {
                     return {
                         id: employee.id,
