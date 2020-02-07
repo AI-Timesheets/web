@@ -68,6 +68,8 @@ const Employees = () => import('@/views/pages/Employees')
 const Users = () => import('@/views/users/Users')
 const User = () => import('@/views/users/User')
 
+const Timesheets = () => import('@/views/pages/Timesheets');
+
 Vue.use(Router)
 
 export default new Router({
@@ -129,6 +131,11 @@ function configRoutes () {
           path: "/employees",
           name: "Employees",
           component: Employees,
+        },
+        {
+          path: "/timesheets",
+          name: "Timesheets",
+          component: Timesheets,
         },
         {
           path: 'theme',

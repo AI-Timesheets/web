@@ -12,6 +12,7 @@ import {
   cibInstagram,
   cibPinterest,
   cibVk,
+  cilClipboard,
   cibYahoo,
   cibBehance,
   cibReddit,
@@ -21,7 +22,7 @@ import {
   cibStripe,
   cibPaypal,
   cibGooglePay, 
-  cibCcAmex
+  cibCcAmex, cilGraph,
 } from '@coreui/icons'
 import {
   cifUs,
@@ -93,6 +94,7 @@ export const iconsSet = Object.assign(
     cilCheck,
     cilChevronBottom,
     cilChevronTop,
+    cilClipboard,
     // cilCircleCheck,
     cilCommentSquare,
     cilCursor,
@@ -125,7 +127,8 @@ export const iconsSet = Object.assign(
     cilUser,
     cilUserFemale,
     cilUserFollow,
-    cilXCircle
+    cilXCircle,
+      cilGraph,
   },
   {
     cifUs,

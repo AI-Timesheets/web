@@ -25,6 +25,12 @@ export default [
         icon: 'cil-people'
       },
       {
+        _name: 'CSidebarNavItem',
+        name: 'Timesheets',
+        to: '/timesheets',
+        icon: 'cil-clipboard'
+      },
+      {
         _name: 'CSidebarNavTitle',
         _children: ['Components']
       },
