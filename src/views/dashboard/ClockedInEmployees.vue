@@ -36,6 +36,7 @@
             return {
                 employeeLogs: [],
                 loading: false,
+                initialized: false,
             }
         },
         mounted: async function() {
@@ -43,13 +44,16 @@
 
             setInterval(() => {
                 this.$forceUpdate();
+                this.getEmployees();
             }, 1000);
         },
         methods: {
             getEmployees: async function() {
-                this.loading = true;
+                if (!this.initialized) {
+                    this.initialized = true;
+                    this.loading = true;
+                }
                 this.employeeLogs = await this.$http.get(`/company/${this.company.id}/clocked-in-employees`);
-                console.log(this.employeeLogs);
                 this.loading = false;
             },
             formatDate: function(date) {

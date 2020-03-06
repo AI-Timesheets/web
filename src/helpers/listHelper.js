@@ -122,4 +122,15 @@ export class List {
     remove(id) {
         return ListHelper.removeById(this.list, id, this.idFn);
     }
+
+    static range(start, end) {
+        const list = new List();
+        list.set([]);
+
+        for (let i = start; i < end; i++) {
+            list.push(i);
+        }
+        console.log(list.get());
+        return list;
+    }
 }

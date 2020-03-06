@@ -23,6 +23,7 @@ import {
   cibPaypal,
   cibGooglePay, 
   cibCcAmex, cilGraph,
+  cilAlarm
 } from '@coreui/icons'
 import {
   cifUs,
@@ -83,6 +84,7 @@ import {
 export const iconsSet = Object.assign(
   {},
   {
+    cilAlarm,
     cilArrowRight,
     cilBan,
     cilBasket,

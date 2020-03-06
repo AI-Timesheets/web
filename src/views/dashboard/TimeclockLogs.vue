@@ -1,4 +1,4 @@
-<template>
+ <template>
     <CCard>
         <CCardHeader>
             <CCardTitle style="display: inline">
@@ -10,12 +10,27 @@
         </CCardBody>
         <CCardBody v-else style="max-height: 500px; overflow-y: scroll">
             <CCard v-for="log in logs">
-                <CCardBody v-if="log.type === 'CLOCKED_IN'">
-                    <p><b>{{log.company_employee.first_name}} {{log.company_employee.last_name}}</b> clocked in to {{log.location.name}} on {{formatDate(log.timestamp)}}</p>
-                </CCardBody>
-                <CCardBody v-else>
-                    <p><b>{{log.company_employee.first_name}} {{log.company_employee.last_name}}</b> clocked out from {{log.location.name}} on {{formatDate(log.timestamp)}}</p>
-                    <p>Clocked in for {{duration(log.clock_in.timestamp, log.timestamp)}}</p>
+                <CCardBody>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="clock_in_type">
+                                <CIcon class="clock_in_type_icon" name="cil-alarm" />
+                                <p class="clock_in_type_label" v-if="log.type === 'CLOCKED_IN'">Clock In</p>
+                                <p class="clock_in_type_label" v-else>Clock Out</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-10">
+                            <p>
+                                <b>{{log.company_employee.first_name}} {{log.company_employee.last_name}}</b>
+                                &nbsp;
+                                <span v-if="log.type === 'CLOCKED_IN'">clocked in at</span>
+                                <span v-else>clocked out from</span>
+                                {{log.location.name}}
+                            </p>
+                            <p><b>Time: </b>{{formatDate(log.timestamp)}}</p>
+                            <p v-if="log.geographic_location"><b>Location: </b>{{log.geographic_location.address}}, {{log.geographic_location.city}} {{log.geographic_location.state}}</p>
+                        </div>
+                    </div>
                 </CCardBody>
             </CCard>
         </CCardBody>
@@ -81,5 +96,23 @@
 <style scoped>
     p {
         margin: 0px;
+    }
+
+    .clock_in_type {
+        background-color: blue;
+        width: 100%;
+        height: 5em;
+        text-align: center;
+        padding-top: 5px;
+    }
+
+    .clock_in_type_label {
+        color: white;
+    }
+
+    .clock_in_type_icon {
+        color: white;
+        width: 70%;
+        height: 70%;
     }
 </style>
