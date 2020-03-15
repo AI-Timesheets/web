@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import FormException from "./exceptions/formException";
 import GenericException from "./exceptions/genericException";
 
-const API_URL = process.env.API_URL ? process.env.API_URL : "http://localhost:8000/api/";
+const API_URL = process.env.VUE_APP_API_URL ? process.env.VUE_APP_API_URL : "http://localhost:8000/api/";
 
 class API {
     constructor() {
